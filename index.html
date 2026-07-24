@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agzybir Doganlar - Türkiye Devlet Üniversiteleri Başvuru Portalı</title>
+
+<!-- EmailJS Kütüphanesi -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); 
+   })();
+</script>
+
+<style>
+    *, *::before, *::after { box-sizing: border-box; }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0; padding: 0 0 30px 0;
+        background: linear-gradient(180deg, #38bdf8 0%, #7dd3fc 40%, #bae6fd 100%);
+        background-attachment: fixed;
+        color: #1e293b;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* --- HAREKETLİ BULUTLAR ARKA PLAN KODLARI --- */
+    .clouds-container {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 100px;
+        filter: blur(15px);
+        animation: moveClouds linear infinite;
+    }
+
+    .cloud::before, .cloud::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.45);
+        border-radius: 50%;
+    }
+
+    .cloud1 { width: 300px; height: 100px; top: 8%; animation-duration: 35s; opacity: 0.8; }
+    .cloud1::before { width: 120px; height: 120px; top: -50px; left: 40px; }
+    .cloud1::after { width: 150px; height: 150px; top: -70px; right: 40px; }
+
+    .cloud2 { width: 450px; height: 140px; top: 35%; animation-duration: 55s; animation-delay: -15s; opacity: 0.6; }
+    .cloud2::before { width: 180px; height: 180px; top: -80px; left: 60px; }
+    .cloud2::after { width: 220px; height: 220px; top: -100px; right: 60px; }
+
+    .cloud3 { width: 250px; height: 80px; top: 65%; animation-duration: 28s; animation-delay: -5s; opacity: 0.7; }
+    .cloud3::before { width: 100px; height: 100px; top: -40px; left: 30px; }
+    .cloud3::after { width: 120px; height: 120px; top: -50px; right: 30px; }
+
+    .cloud4 { width: 500px; height: 160px; top: 18%; animation-duration: 70s; animation-delay: -30s; opacity: 0.5; }
+    .cloud4::before { width: 200px; height: 200px; top: -90px; left: 70px; }
+    .cloud4::after { width: 250px; height: 250px; top: -110px; right: 70px; }
+
+    @keyframes moveClouds {
+        0% { transform: translateX(-150%); }
+        100% { transform: translateX(250vw); }
+    }
+
+    .top-banner-container {
+        position: relative; z-index: 2; width: 100%;
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+        margin-bottom: 25px; padding: 20px; text-align: center;
+    }
+
+    .original-banner-img {
+        width: 100%; max-width: 500px; height: auto; display: block;
+        margin: 0 auto; border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); position: relative; z-index: 3;
+    }
+
+    .main-container {
+        position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 20px;
+    }
+
+    .nav-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+        padding: 14px 22px; border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15); margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    
+    .btn {
+        border: none; padding: 9px 16px; border-radius: 6px;
+        font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;
+    }
+    .btn-admin-login { background-color: #0284c7; color: white; }
+    .btn-admin-login:hover { background-color: #0369a1; }
+    .btn-logout { background-color: #ef4444; color: white; }
+    .btn-primary { background-color: #0284c7; color: white; width: 100%; padding: 12px; font-size: 14px; }
+    .btn-approve { background-color: #10b981; color: white; margin-bottom: 4px; }
+    .btn-reject { background-color: #ef4444; color: white; margin-bottom: 4px; }
+    .btn-view-docs { background-color: #f59e0b; color: white; margin-bottom: 4px; }
+    .btn-excel { background-color: #16a34a; color: white; }
+    .btn-excel:hover { background-color: #15803d; }
+    .btn-add { background-color: #0284c7; color: white; padding: 10px 18px; white-space: nowrap; }
+
+    .card {
+        background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px);
+        padding: 24px; border-radius: 12px; margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 25px rgba(14, 165, 233, 0.12);
+    }
+    .card-title {
+        font-size: 16px; font-weight: bold; color: #0369a1;
+        border-bottom: 2px solid #f59e0b; padding-bottom: 8px; margin-bottom: 18px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-row { display: flex; gap: 15px; }
+    .form-row .form-group { flex: 1; }
+
+    label { display: block; font-weight: bold; margin-bottom: 6px; color: #334155; font-size: 13px; }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="password"], select, textarea {
+        width: 100%; padding: 10px; border: 1px solid #cbd5e1;
+        border-radius: 6px; font-size: 13px; background-color: #f8fafc;
+    }
+
+    .city-checkbox-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+        max-height: 220px;
+        overflow-y: auto;
+        padding: 12px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+    }
+    .city-checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        cursor: pointer;
+        color: #334155;
+    }
+    .city-checkbox-item input {
+        cursor: pointer;
+        width: 16px; height: 16px;
+    }
+
+    .preference-list { list-style-type: none; padding: 0; margin: 10px 0 0 0; }
+    .preference-item {
+        display: flex; justify-content: space-between; align-items: center;
+        background: #f0f9ff; border: 1px solid #bae6fd; padding: 8px 12px;
+        border-radius: 6px; margin-bottom: 6px; font-size: 13px;
+    }
+    .btn-delete-pref {
+        background: #ef4444; color: white; border: none; padding: 4px 8px;
+        border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;
+    }
+
+    .rules-box {
+        background-color: #fffbeeb0; border-left: 4px solid #f59e0b;
+        padding: 12px 15px; border-radius: 4px; margin-bottom: 15px;
+        font-size: 12.5px; color: #78350f;
+    }
+    .rules-box ul { margin: 5px 0 0 18px; padding: 0; }
+
+    .alert-success {
+        background-color: #dcfce7; color: #14532d; border: 1px solid #86efac;
+        padding: 15px; border-radius: 8px; margin-bottom: 20px; display: none;
+    }
+    .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+    .status-pending { background-color: #fef3c7; color: #92400e; }
+    .status-approved { background-color: #dcfce7; color: #14532d; }
+    .status-rejected { background-color: #fee2e2; color: #991b1b; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; font-size: 13px; vertical-align: top; }
+    th { background-color: #0284c7; color: #ffffff; }
+
+    .modal {
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+        justify-content: center; align-items: center; z-index: 9999;
+    }
+    .modal-content {
+        background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;
+    }
+
+    .photo-preview-container { margin-top: 8px; display: none; }
+    .photo-preview-img {
+        width: 100px; height: 125px; object-fit: cover; border-radius: 6px;
+        border: 2px solid #0284c7; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .doc-link-item {
+        display: flex; justify-content: space-between; align-items: center;
+        background: #f0f9ff; padding: 10px 12px; border-radius: 6px; margin-bottom: 8px;
+        border: 1px solid #bae6fd; font-size: 13px;
+    }
+    .doc-link-item a {
+        background: #0284c7; color: white; text-decoration: none; padding: 5px 10px;
+        border-radius: 4px; font-size: 12px; font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="clouds-container">
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+    <div class="cloud cloud3"></div>
+    <div class="cloud cloud4"></div>
+</div>
+
+<div class="top-banner-container">
+    <img src="1784907722293.png" alt="Agzybir Doganlar Banner" class="original-banner-img">
+</div>
+
+<div class="main-container">
+
+    <div class="nav-bar">
+        <div>
+            <span style="font-weight: bold; color: #0369a1; font-size: 15px;">Türkiye Devlet Üniversiteleri Başvuru Portalı</span>
+        </div>
+        <div>
+            <button type="button" class="btn btn-admin-login" id="admin-toggle-btn" onclick="toggleAdminPanel()">⚙️ Yönetici Girişi</button>
+        </div>
+    </div>
+
+    <!-- ÖĞRENCİ PANELİ -->
+    <div id="student-view" style="display: block;">
+        <div id="success-alert" class="alert-success">
+            <h3 style="margin-top:0;">✅ Dokumentleriniz Üstünlükli Ugradyldy! Jogabyna Garaşmagyňyzy sizden hayyşt edyaris!</h3>
+            <p>Başvuru Kodunuz: <b id="generated-code" style="font-size: 16px; color: #0284c7;"></b></p>
+            <p><small>* Bu kod e-posta adresinize (<b><span id="sent-email"></span></b>) bildirim olarak gönderilmiştir.</small></p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">🔍 Başvuru Durumu Sorgula</div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="search-code-input" placeholder="Başvuru Kodunuzu Giriniz (örn: TR-2026-1001)">
+                <button type="button" class="btn btn-admin-login" style="white-space: nowrap;" onclick="checkApplicationStatus()">Sorgula</button>
+            </div>
+            <div id="search-result" style="margin-top: 15px; display: none;"></div>
+        </div>
+
+        <div class="card" id="form-card">
+            <div class="card-title" id="form-title">📝 Öğrenci Başvuru Formu</div>
+            <form id="application-form" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="edit-app-id" value="">
+                
+                <div class="form-group">
+                    <label>Ad Soyad (Pasaporttaki Gibi):</label>
+                    <input type="text" id="fullname" required placeholder="Aygül Berdiyeva">
+                </div>
+
+                <div class="form-group">
+                    <label>Pasaport Numarası:</label>
+                    <input type="text" id="passport-number" required placeholder="A12345678">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Annesinin Adı ve Soyadı:</label>
+                        <input type="text" id="mother-name" required placeholder="Meryem Berdiyeva">
+                    </div>
+                    <div class="form-group">
+                        <label>Babasının Adı ve Soyadı:</label>
+                        <input type="text" id="father-name" required placeholder="Mered Berdiyev">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ev Adresi:</label>
+                    <textarea id="home-address" rows="2" required placeholder="Şehir, İlçe, Mahalle, Sokak ve Bina No"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>WhatsApp / Telefon:</label>
+                        <input type="tel" id="phone" required placeholder="+993 65 123456">
+                    </div>
+                    <div class="form-group">
+                        <label>E-posta Adresi:</label>
+                        <input type="email" id="email" required placeholder="ornek@mail.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Atestat Not Ortalaması (Puan Derecesi):</label>
+                    <input type="number" id="gpa" step="0.01" min="1" max="100" required placeholder="Örn: 4.85 veya 88.5">
+                </div>
+
+                <div class="form-group">
+                    <label>Başvuru Yapmak İstediğiniz Şehirler (En Fazla 30 Şehir Seçebilirsiniz):</label>
+                    <div class="city-checkbox-container" id="city-checkbox-list"></div>
+                    <small id="city-count-text" style="color:#0369a1; font-weight:bold; display:block; margin-top:5px;">Seçilen Şehir: 0/30</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Engelli Durumunuz Var mı?</label>
+                    <select id="disability-status" onchange="toggleDisabilityNote(this.value)" required>
+                        <option value="Hayır">Hayır (Yok)</option>
+                        <option value="Evet">Evet (Var)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="disability-note-group" style="display: none;">
+                    <label style="color: #d97706;">Engellilik Durumu Açıklaması / Kısa Not:</label>
+                    <textarea id="disability-note" rows="2" placeholder="Lütfen engel durumunuzu kısaca açıklayınız..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Tercih Edilen Fakülte ve Bölümler (En Fazla 10 Tercih Yapabilirsiniz):</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="department-select">
+                            <option value="">-- Bir Bölüm ve Fakülte Seçiniz --</option>
+                            <optgroup label="Tıp ve Sağlık Bilimleri">
+                                <option value="Tıp Fakültesi (Türkçe) - Tıp Fakültesi [6 Yıllık]">Tıp Fakültesi (Türkçe) - Tıp Fakültesi [6 Yıllık]</option>
+                                <option value="Tıp Fakültesi (İngilizce) - Tıp Fakültesi [6 Yıllık]">Tıp Fakültesi (İngilizce) - Tıp Fakültesi [6 Yıllık]</option>
+                                <option value="Diş Hekimliği - Diş Hekimliği Fakültesi [5 Yıllık]">Diş Hekimliği - Diş Hekimliği Fakültesi [5 Yıllık]</option>
+                                <option value="Eczacılık - Eczacılık Fakültesi [5 Yıllık]">Eczacılık - Eczacılık Fakültesi [5 Yıllık]</option>
+                                <option value="Hemşirelik - Sağlık Bilimleri Fakültesi [4 Yıllık]">Hemşirelik - Sağlık Bilimleri Fakültesi [4 Yıllık]</option>
+                                <option value="Ebelik - Sağlık Bilimleri Fakültesi [4 Yıllık]">Ebelik - Sağlık Bilimleri Fakültesi [4 Yıllık]</option>
+                                <option value="Fizyoterapi ve Rehabilitasyon - Sağlık Bilimleri Fakültesi [4 Yıllık]">Fizyoterapi ve Rehabilitasyon - Sağlık Bilimleri Fakültesi [4 Yıllık]</option>
+                                <option value="Beslenme ve Diyetetik - Sağlık Bilimleri Fakültesi [4 Yıllık]">Beslenme ve Diyetetik - Sağlık Bilimleri Fakültesi [4 Yıllık]</option>
+                                <option value="Veteriner Hekimliği - Veteriner Fakültesi [5 Yıllık]">Veteriner Hekimliği - Veteriner Fakültesi [5 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="Mühendislik ve Mimarlık Fakültesi">
+                                <option value="Bilgisayar Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Bilgisayar Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Yazılım Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Yazılım Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Yapay Zeka Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Yapay Zeka Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Elektrik-Elektronik Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Elektrik-Elektronik Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="İnşaat Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">İnşaat Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Makine Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Makine Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Endüstri Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Endüstri Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                                <option value="Mimarlık - Mimarlık Fakültesi [4 Yıllık]">Mimarlık - Mimarlık Fakültesi [4 Yıllık]</option>
+                                <option value="İç Mimarlık - Mimarlık ve Tasarım Fakültesi [4 Yıllık]">İç Mimarlık - Mimarlık ve Tasarım Fakültesi [4 Yıllık]</option>
+                                <option value="Mekatronik Mühendisliği - Mühendislik Fakültesi [4 Yıllık]">Mekatronik Mühendisliği - Mühendislik Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="İktisadi ve İdari Bilimler Fakültesi">
+                                <option value="İşletme - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]">İşletme - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]</option>
+                                <option value="İktisat (Ekonomi) - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]">İktisat (Ekonomi) - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]</option>
+                                <option value="Uluslararası İlişkiler - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]">Uluslararası İlişkiler - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]</option>
+                                <option value="Siyaset Bilimi ve Kamu Yönetimi - İBF [4 Yıllık]">Siyaset Bilimi ve Kamu Yönetimi - İBF [4 Yıllık]</option>
+                                <option value="Uluslararası Ticaret ve Lojistik - İBF [4 Yıllık]">Uluslararası Ticaret ve Lojistik - İBF [4 Yıllık]</option>
+                                <option value="Maliye - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]">Maliye - İktisadi ve İdari Bilimler Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="Eğitim Fakültesi (Öğretmenlikler)">
+                                <option value="İngilizce Öğretmenliği - Eğitim Fakültesi [4 Yıllık]">İngilizce Öğretmenliği - Eğitim Fakültesi [4 Yıllık]</option>
+                                <option value="Türkçe Öğretmenliği - Eğitim Fakültesi [4 Yıllık]">Türkçe Öğretmenliği - Eğitim Fakültesi [4 Yıllık]</option>
+                                <option value="Okul Öncesi Öğretmenliği - Eğitim Fakültesi [4 Yıllık]">Okul Öncesi Öğretmenliği - Eğitim Fakültesi [4 Yıllık]</option>
+                                <option value="Sınıf Öğretmenliği - Eğitim Fakültesi [4 Yıllık]">Sınıf Öğretmenliği - Eğitim Fakültesi [4 Yıllık]</option>
+                                <option value="Rehberlik ve Psikolojik Danışmanlık (PDR) - Eğitim Fakültesi [4 Yıllık]">Rehberlik ve Psikolojik Danışmanlık (PDR) - Eğitim Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="Fen ve Edebiyat Fakültesi / İnsan Bilimleri">
+                                <option value="Psikoloji - Fen-Edebiyat / İnsan Bilimleri Fakültesi [4 Yıllık]">Psikoloji - Fen-Edebiyat / İnsan Bilimleri Fakültesi [4 Yıllık]</option>
+                                <option value="Sosyoloji - Fen-Edebiyat Fakültesi [4 Yıllık]">Sosyoloji - Fen-Edebiyat Fakültesi [4 Yıllık]</option>
+                                <option value="Türk Dili ve Edebiyatı - Edebiyat Fakültesi [4 Yıllık]">Türk Dili ve Edebiyatı - Edebiyat Fakültesi [4 Yıllık]</option>
+                                <option value="İngiliz Dili ve Edebiyatı - Edebiyat Fakültesi [4 Yıllık]">İngiliz Dili ve Edebiyatı - Edebiyat Fakültesi [4 Yıllık]</option>
+                                <option value="Matematik - Fen Fakültesi [4 Yıllık]">Matematik - Fen Fakültesi [4 Yıllık]</option>
+                                <option value="Tarih - Edebiyat Fakültesi [4 Yıllık]">Tarih - Edebiyat Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="Hukuk ve İlahiyat Fakülteleri">
+                                <option value="Hukuk - Hukuk Fakültesi [4 Yıllık]">Hukuk - Hukuk Fakültesi [4 Yıllık]</option>
+                                <option value="İlahiyat / İslami İlimler - İlahiyat Fakültesi [4 Yıllık]">İlahiyat / İslami İlimler - İlahiyat Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                            <optgroup label="İletişim, Sanat ve Spor">
+                                <option value="Radyo, Televizyon ve Sinema - İletişim Fakültesi [4 Yıllık]">Radyo, Televizyon ve Sinema - İletişim Fakültesi [4 Yıllık]</option>
+                                <option value="Grafik Tasarım - Güzel Sanatlar Fakültesi [4 Yıllık]">Grafik Tasarım - Güzel Sanatlar Fakültesi [4 Yıllık]</option>
+                                <option value="Gastronomi ve Mutfak Sanatları - Turizm Fakültesi [4 Yıllık]">Gastronomi ve Mutfak Sanatları - Turizm Fakültesi [4 Yıllık]</option>
+                                <option value="Beden Eğitimi Öğretmenliği - Spor Bilimleri Fakültesi [4 Yıllık]">Beden Eğitimi Öğretmenliği - Spor Bilimleri Fakültesi [4 Yıllık]</option>
+                            </optgroup>
+                        </select>
+                        <button type="button" class="btn btn-add" onclick="addPreference()">+ Ekle</button>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <label><b>Seçtiğiniz Tercihler:</b></label>
+                        <ul id="selected-preferences" class="preference-list"></ul>
+                        <small id="pref-count-text" style="color:#666;">Henüz tercih eklenmedi (0/10).</small>
+                    </div>
+                </div>
+
+                <div class="card-title" style="margin-top:20px;">📄 Evrak Yükleme Alanı</div>
+
+                <div class="rules-box">
+                    <b>⚠️ ÖNEMLİ EVRAK YÜKLEME KURALLARI:</b>
+                    <ul>
+                        <li>Diplomalar, transkriptler, ortalama belgeleri ve pasaport <b>SADECE PDF formatında</b> yüklenmelidir (`.pdf`).</li>
+                        <li>Vesikalık fotoğraf <b>SADECE JPG/JPEG formatında</b> kabul edilmektedir (`.jpg`, `.jpeg`).</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <label>1. Lise Diploması (Atestat) Orijinali ve Çevirisi - [Sadece PDF]:</label>
+                    <input type="file" id="file-atestat" accept=".pdf" required onchange="handleFileSelect(this, 'atestat', 'pdf')">
+                </div>
+                <div class="form-group">
+                    <label>2. Not Dökümü (Transkript) Orijinali ve Çevirisi - [Sadece PDF]:</label>
+                    <input type="file" id="file-transcript" accept=".pdf" required onchange="handleFileSelect(this, 'transcript', 'pdf')">
+                </div>
+                <div class="form-group">
+                    <label>3. Atestat Ortalaması Orijinali ve Çevirisi - [Sadece PDF]:</label>
+                    <input type="file" id="file-gpa-doc" accept=".pdf" required onchange="handleFileSelect(this, 'gpaDoc', 'pdf')">
+                </div>
+                <div class="form-group">
+                    <label>4. Pasaport Fotokopisi Orijinali ve Çevirisi - [Sadece PDF]:</label>
+                    <input type="file" id="file-passport" accept=".pdf" required onchange="handleFileSelect(this, 'passport', 'pdf')">
+                </div>
+                <div class="form-group">
+                    <label>5. Biyometrik Vesikalık Fotoğraf - [Sadece JPG/JPEG]:</label>
+                    <input type="file" id="file-photo" accept=".jpg,.jpeg" required onchange="handleFileSelect(this, 'photo', 'jpg')">
+                    <div class="photo-preview-container" id="photo-preview-box">
+                        <label>Fotoğraf Önizlemesi:</label>
+                        <img id="form-photo-img" class="photo-preview-img" src="" alt="Vesikalık Önizleme">
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn btn-primary" style="margin-top: 15px;">Başvuruyu Gönder</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- YÖNETİCİ PANELİ -->
+    <div id="admin-view" style="display: none;">
+        <div class="card">
+            <div class="card-title">
+                <span>⚙️ Yönetici Paneli - Gelen Başvurular</span>
+                <button type="button" class="btn btn-excel" onclick="exportToExcel()">📊 Excel'e Aktar (CSV)</button>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fotoğraf</th>
+                            <th>Başvuru Kodu</th>
+                            <th>Öğrenci & Kimlik Bilgileri</th>
+                            <th>Seçilen Şehirler</th>
+                            <th>Aile & Adres Bilgileri</th>
+                            <th>Engellilik</th>
+                            <th>Tercihler</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Yönetici Giriş Modalı -->
+<div class="modal" id="login-modal">
+    <div class="modal-content">
+        <h3 style="margin-top:0;">🔐 Yönetici Girişi</h3>
+        <p style="font-size:12px; color:#666; margin-bottom:15px;">Varsayılan Şifre: <b>admin123</b></p>
+        <div class="form-group">
+            <label for="admin-pass-input">Şifre:</label>
+            <input type="password" id="admin-pass-input" placeholder="Şifrenizi giriniz..." onkeydown="checkEnterKey(event)">
+        </div>
+        <div style="display:flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
+            <button type="button" class="btn" onclick="closeAdminModal()">İptal</button>
+            <button type="button" class="btn btn-admin-login" onclick="executeLogin()">Giriş Yap</button>
+        </div>
+    </div>
+</div>
+
+<!-- Evrak Modalı -->
+<div class="modal" id="docs-modal">
+    <div class="modal-content">
+        <h3 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:8px;" id="docs-modal-title">📄 Evrak ve Fotoğraf İnceleme</h3>
+        <div id="docs-modal-body"></div>
+        <div style="display:flex; justify-content: flex-end; margin-top: 15px;">
+            <button type="button" class="btn btn-admin-login" onclick="closeDocsModal()">Kapat</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const availableCities = [
+        "Ankara", "İzmir", "Bursa", "Eskişehir", "Konya", "Trabzon", "Samsun", "Gaziantep", 
+        "Kayseri", "Adana", "Mersin", "Muğla", "Aydın", "Çanakkale", "Sakarya", "Kocaeli", 
+        "Denizli", "Balıkesir", "Erzurum", "Sivas", "Malatya", "Şanlıurfa", "Diyarbakır", 
+        "Edirne", "Manisa", "Isparta", "Afyonkarahisar", "Bolu", "Rize", "Ordu"
+    ];
+
+    let applications = [];
+    let selectedDepartments = [];
+    let isAdminLoggedIn = false;
+    let currentUploadedFiles = {};
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('city-checkbox-list');
+        availableCities.forEach((city, index) => {
+            const label = document.createElement('label');
+            label.className = 'city-checkbox-item';
+            label.innerHTML = `
+                <input type="checkbox" name="selected-cities" value="${city}" onchange="handleCitySelectionChange()">
+                <span>${index + 1}. ${city}</span>
+            `;
+            container.appendChild(label);
+        });
+    });
+
+    function handleCitySelectionChange() {
+        const checkboxes = document.querySelectorAll('input[name="selected-cities"]:checked');
+        const count = checkboxes.length;
+        document.getElementById('city-count-text').innerText = `Seçilen Şehir: ${count}/30`;
+
+        if (count > 30) {
+            alert('Maksimum 30 şehir seçebilirsiniz!');
+            this.checked = false;
+        }
+    }
+
+    function toggleDisabilityNote(value) {
+        const noteGroup = document.getElementById('disability-note-group');
+        if (value === 'Evet') {
+            noteGroup.style.display = 'block';
+        } else {
+            noteGroup.style.display = 'none';
+            document.getElementById('disability-note').value = '';
+        }
+    }
+
+    function handleFileSelect(input, key, expectedType) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const fileName = file.name.toLowerCase();
+        
+        if (expectedType === 'pdf' && !fileName.endsWith('.pdf')) {
+            alert('❌ HATA: Bu alana sadece PDF uzantılı dosya yükleyebilirsiniz!');
+            input.value = '';
+            delete currentUploadedFiles[key];
+            return;
+        } else if (expectedType === 'jpg' && !(fileName.endsWith('.jpg') || fileName.endsWith('.jpeg'))) {
+            alert('❌ HATA: Vesikalık fotoğraf SADECE JPG veya JPEG formatında olmalıdır!');
+            input.value = '';
+            delete currentUploadedFiles[key];
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentUploadedFiles[key] = {
+                name: file.name,
+                data: e.target.result
+            };
+
+            if (key === 'photo') {
+                document.getElementById('form-photo-img').src = e.target.result;
+                document.getElementById('photo-preview-box').style.display = 'block';
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function sendConfirmationEmail(fullname, email, appCode) {
+        if(typeof emailjs !== 'undefined') {
+            const templateParams = { to_name: fullname, to_email: email, app_code: appCode };
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+        }
+    }
+
+    function addPreference() {
+        const select = document.getElementById('department-select');
+        const selectedValue = select.value;
+
+        if (!selectedValue || selectedValue.trim() === "") {
+            alert('Lütfen listeden bir bölüm seçiniz!');
+            return;
+        }
+
+        if (selectedDepartments.length >= 10) {
+            alert('En fazla 10 tercih ekleyebilirsiniz!');
+            return;
+        }
+
+        if (selectedDepartments.includes(selectedValue)) {
+            alert('Bu bölümü zaten tercihlerinize eklediniz!');
+            return;
+        }
+
+        selectedDepartments.push(selectedValue);
+        renderPreferences();
+        select.value = '';
+    }
+
+    function removePreference(index) {
+        selectedDepartments.splice(index, 1);
+        renderPreferences();
+    }
+
+    function renderPreferences() {
+        const list = document.getElementById('selected-preferences');
+        const countText = document.getElementById('pref-count-text');
+        list.innerHTML = '';
+
+        selectedDepartments.forEach((dep, idx) => {
+            const li = document.createElement('li');
+            li.className = 'preference-item';
+            li.innerHTML = `
+                <span><b>${idx + 1}. Tercih:</b> ${dep}</span>
+                <button type="button" class="btn-delete-pref" onclick="removePreference(${idx})">Sil</button>
+            `;
+            list.appendChild(li);
+        });
+
+        countText.innerText = `${selectedDepartments.length}/10 tercih eklendi.`;
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+
+        const cityCheckboxes = document.querySelectorAll('input[name="selected-cities"]:checked');
+        if (cityCheckboxes.length === 0) {
+            alert('Lütfen en az 1 şehir seçiniz!');
+            return;
+        }
+        if (cityCheckboxes.length > 30) {
+            alert('En fazla 30 şehir seçebilirsiniz!');
+            return;
+        }
+
+        if (selectedDepartments.length === 0) {
+            alert('Lütfen en az 1 tane tercih edilen bölüm ekleyiniz!');
+            return;
+        }
+
+        const disabilityVal = document.getElementById('disability-status').value;
+        const disabilityNoteVal = document.getElementById('disability-note').value;
+        if (disabilityVal === 'Evet' && !disabilityNoteVal.trim()) {
+            alert('Lütfen engellilik durumu açıklama notunu doldurunuz!');
+            return;
+        }
+        
+        let selectedCitiesArray = [];
+        cityCheckboxes.forEach(cb => selectedCitiesArray.push(cb.value));
+
+        const editId = document.getElementById('edit-app-id').value;
+        const fullname = document.getElementById('fullname').value;
+        const passportNum = document.getElementById('passport-number').value;
+        const motherName = document.getElementById('mother-name').value;
+        const fatherName = document.getElementById('father-name').value;
+        const homeAddress = document.getElementById('home-address').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const gpa = document.getElementById('gpa').value;
+
+        if (editId) {
+            const app = applications.find(a => a.code === editId);
+            if (app) {
+                app.fullname = fullname;
+                app.passportNum = passportNum;
+                app.motherName = motherName;
+                app.fatherName = fatherName;
+                app.homeAddress = homeAddress;
+                app.phone = phone;
+                app.email = email;
+                app.gpa = gpa;
+                app.cities = selectedCitiesArray;
+                app.disability = disabilityVal;
+                app.disabilityNote = disabilityNoteVal;
+                app.departments = [...selectedDepartments];
+                app.status = 'Pending';
+                app.adminNote = '';
+                if(Object.keys(currentUploadedFiles).length > 0) {
+                    app.files = {...app.files, ...currentUploadedFiles};
+                }
+                
+                alert('Başvurunuz başarıyla güncellendi!');
+                resetForm();
+                checkApplicationStatusByCode(editId);
+            }
+        } else {
+            const newCode = 'TR-2026-' + Math.floor(1000 + Math.random() * 9000);
+            const newApp = {
+                code: newCode,
+                fullname, passportNum, motherName, fatherName, homeAddress,
+                phone, email, gpa,
+                cities: selectedCitiesArray,
+                disability: disabilityVal,
+                disabilityNote: disabilityNoteVal,
+                departments: [...selectedDepartments],
+                files: {...currentUploadedFiles},
+                status: 'Pending',
+                adminNote: ''
+            };
+
+            applications.push(newApp);
+            sendConfirmationEmail(fullname, email, newCode);
+
+            document.getElementById('generated-code').innerText = newCode;
+            document.getElementById('sent-email').innerText = email;
+            document.getElementById('success-alert').style.display = 'block';
+
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        if (isAdminLoggedIn) renderAdminTable();
+    }
+
+    function resetForm() {
+        document.getElementById('application-form').reset();
+        document.getElementById('edit-app-id').value = '';
+        document.getElementById('photo-preview-box').style.display = 'none';
+        document.getElementById('disability-note-group').style.display = 'none';
+        document.getElementById('city-count-text').innerText = 'Seçilen Şehir: 0/30';
+        
+        selectedDepartments = [];
+        currentUploadedFiles = {};
+        renderPreferences();
+        
+        document.getElementById('form-title').innerText = '📝 Öğrenci Başvuru Formu';
+        document.getElementById('submit-btn').innerText = 'Başvuruyu Gönder';
+        
+        document.getElementById('file-atestat').required = true;
+        document.getElementById('file-transcript').required = true;
+        document.getElementById('file-gpa-doc').required = true;
+        document.getElementById('file-passport').required = true;
+        document.getElementById('file-photo').required = true;
+    }
+
+    function toggleAdminPanel() {
+        if (isAdminLoggedIn) {
+            isAdminLoggedIn = false;
+            document.getElementById('student-view').style.display = 'block';
+            document.getElementById('admin-view').style.display = 'none';
+            document.getElementById('admin-toggle-btn').innerText = '⚙️ Yönetici Girişi';
+            document.getElementById('admin-toggle-btn').className = 'btn btn-admin-login';
+        } else {
+            document.getElementById('admin-pass-input').value = '';
+            document.getElementById('login-modal').style.display = 'flex';
+            setTimeout(() => document.getElementById('admin-pass-input').focus(), 100);
+        }
+    }
+
+    function closeAdminModal() {
+        document.getElementById('login-modal').style.display = 'none';
+    }
+
+    function checkEnterKey(e) {
+        if (e.key === 'Enter') {
+            executeLogin();
+        }
+    }
+
+    function executeLogin() {
+        const pass = document.getElementById('admin-pass-input').value.trim();
+        if (pass === 'admin123') {
+            isAdminLoggedIn = true;
+            closeAdminModal();
+            document.getElementById('student-view').style.display = 'none';
+            document.getElementById('admin-view').style.display = 'block';
+            document.getElementById('admin-toggle-btn').innerText = '🚪 Çıkış Yap';
+            document.getElementById('admin-toggle-btn').className = 'btn btn-logout';
+            renderAdminTable();
+        } else {
+            alert('❌ Hatalı Şifre! Varsayılan Şifre: admin123');
+        }
+    }
+
+    function renderAdminTable() {
+        const tbody = document.getElementById('admin-table-body');
+        tbody.innerHTML = '';
+
+        if (applications.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Henüz başvuru bulunmamaktadır.</td></tr>';
+            return;
+        }
+
+        applications.forEach(app => {
+            const deptListHtml = app.departments.map((d, i) => `<b>${i+1}.</b> ${d}`).join('<br>');
+            const citiesStr = app.cities ? app.cities.join(', ') : '';
+            const photoSrc = (app.files && app.files.photo) ? app.files.photo.data : '';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    ${photoSrc ? `<img src="${photoSrc}" style="width:50px; height:65px; object-fit:cover; border-radius:4px; border:1px solid #ccc;">` : '<small>Yok</small>'}
+                </td>
+                <td><b>${app.code}</b></td>
+                <td>
+                    <b>${app.fullname}</b><br>
+                    <small><b>Pasaport No:</b> ${app.passportNum}</small><br>
+                    <small><b>Ortalama:</b> ${app.gpa}</small><br>
+                    <small><b>Tel:</b> ${app.phone}</small><br>
+                    <small><b>E-Mail:</b> ${app.email}</small>
+                </td>
+                <td><small style="color:#0369a1; font-weight:bold;">${citiesStr}</small></td>
+                <td>
+                    <small><b>Anne:</b> ${app.motherName}</small><br>
+                    <small><b>Baba:</b> ${app.fatherName}</small><br>
+                    <small><b>Adres:</b> ${app.homeAddress}</small>
+                </td>
+                <td>
+                    <b>${app.disability}</b>
+                    ${app.disability === 'Evet' ? `<br><small style="color:#d97706;">${app.disabilityNote}</small>` : ''}
+                </td>
+                <td style="font-size:11px;">${deptListHtml}</td>
+                <td><span class="status-badge status-${app.status.toLowerCase()}">${app.status}</span></td>
+                <td>
+                    <button type="button" class="btn btn-view-docs" onclick="openDocsModal('${app.code}')">📂 Evraklar</button><br>
+                    <button type="button" class="btn btn-approve" onclick="updateAppStatus('${app.code}', 'Approved')">✓ Onayla</button><br>
+                    <button type="button" class="btn btn-reject" onclick="promptReject('${app.code}')">✗ Reddet</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // DÜZELTİLEN EXCEL'E AKTARMA FONKSİYONU
+    function exportToExcel() {
+        if (applications.length === 0) {
+            alert('Dışa aktarılacak başvuru bulunmamaktadır!');
+            return;
+        }
+
+        let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; 
+        csvContent += "Basvuru Kodu\tAd Soyad\tPasaport No\tSecilen Sehirler\tAnne Adi\tBaba Adi\tEv Adresi\tTelefon\tE-posta\tAtestat Ortalamasi\tEngelli Durumu\tEngelli Notu\tTercihler\tBasvuru Durumu\n";
+
+        applications.forEach(app => {
+            const depts = app.departments.join(" | ");
+            const citiesStr = app.cities ? app.cities.join(" - ") : "";
+            const cleanAddress = app.homeAddress ? app.homeAddress.replace(/(\r\n|\n|\r)/gm, " ") : "";
+            
+            const row = [
+                app.code,
+                app.fullname,
+                app.passportNum,
+                citiesStr,
+                app.motherName,
+                app.fatherName,
+                cleanAddress,
+                app.phone,
+                app.email,
+                app.gpa,
+                app.disability,
+                app.disabilityNote || "Yok",
+                depts,
+                app.status
+            ];
+            csvContent += row.map(val => `"${(val + '').replace(/"/g, '""')}"`).join("\t") + "\n";
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `Universite_Basvurulari_${new Date().toISOString().slice(0,10)}.xls`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function openDocsModal(code) {
+        const app = applications.find(a => a.code === code);
+        if(!app) return;
+
+        document.getElementById('docs-modal-title').innerText = `📄 Evraklar: ${app.fullname} (${app.code})`;
+        const body = document.getElementById('docs-modal-body');
+        body.innerHTML = '';
+
+        const files = app.files || {};
+        let content = '';
+        
+        if(files.photo) {
+            content += `
+                <div style="text-align:center; margin-bottom:15px;">
+                    <label style="display:block; margin-bottom:5px;"><b>Biyometrik Vesikalık Fotoğraf:</b></label>
+                    <img src="${files.photo.data}" style="width:130px; height:160px; object-fit:cover; border-radius:8px; border:2px solid #0284c7;">
+                </div>
+            `;
+        }
+
+        const docLabels = {
+            atestat: "1. Lise Diploması (Atestat)",
+            transcript: "2. Not Dökümü (Transkript)",
+            gpaDoc: "3. Atestat Ortalama Belgesi",
+            passport: "4. Pasaport Fotokopisi"
+        };
+
+        for (let key in docLabels) {
+            if(files[key]) {
+                content += `
+                    <div class="doc-link-item">
+                        <span><b>${docLabels[key]}</b></span>
+                        <a href="${files[key].data}" download="${app.code}_${key}.pdf" target="_blank">📄 İncele / İndir</a>
+                    </div>
+                `;
+            } else {
+                content += `
+                    <div class="doc-link-item" style="opacity:0.6;">
+                        <span>${docLabels[key]}</span>
+                        <span style="color:red; font-size:11px;">Yüklenmedi</span>
+                    </div>
+                `;
+            }
+        }
+
+        body.innerHTML = content;
+        document.getElementById('docs-modal').style.display = 'flex';
+    }
+
+    function closeDocsModal() {
+        document.getElementById('docs-modal').style.display = 'none';
+    }
+
+    function updateAppStatus(code, status, note = '') {
+        const app = applications.find(a => a.code === code);
+        if (app) {
+            app.status = status;
+            app.adminNote = note;
+            renderAdminTable();
+            alert(`${code} kodlu başvuru ${status === 'Approved' ? 'ONAYLANDI' : 'REDDEDİLDİ'}.`);
+        }
+    }
+
+    function promptReject(code) {
+        const reason = prompt('Lütfen reddetme sebebini yazınız:');
+        if (reason !== null) {
+            updateAppStatus(code, 'Rejected', reason);
+        }
+    }
+
+    function checkApplicationStatus() {
+        const code = document.getElementById('search-code-input').value.trim();
+        checkApplicationStatusByCode(code);
+    }
+
+    function checkApplicationStatusByCode(code) {
+        const resultDiv = document.getElementById('search-result');
+        const app = applications.find(a => a.code.toUpperCase() === code.toUpperCase());
+
+        if (!app) {
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `<p style="color:red;"><b>Bulunamadı:</b> '${code}' koduna ait başvuru bulunamadı.</p>`;
+            return;
+        }
+
+        let statusBadge = '';
+        let actionBtn = '';
+
+        if (app.status === 'Pending') {
+            statusBadge = '<span class="status-badge status-pending">⏳ İnceleme Bekliyor</span>';
+        } else if (app.status === 'Approved') {
+            statusBadge = '<span class="status-badge status-approved">✅ Onaylandı</span>';
+        } else if (app.status === 'Rejected') {
+            statusBadge = '<span class="status-badge status-rejected">❌ Reddedildi</span>';
+            actionBtn = `<button type="button" class="btn btn-admin-login" style="margin-top:10px;" onclick="loadFormForEdit('${app.code}')">✏️ Evrakları / Bilgileri Güncelle</button>`;
+        }
+
+        const deptListHtml = app.departments.map((d, i) => `${i+1}. ${d}`).join('<br>');
+        const citiesStr = app.cities ? app.cities.join(', ') : '';
+
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+            <div style="background:#f0f9ff; padding:15px; border-radius:8px; border:1px solid #bae6fd;">
+                <p><b>Öğrenci:</b> ${app.fullname} (Pasaport: ${app.passportNum})</p>
+                <p><b>Seçilen Şehirler:</b> ${citiesStr}</p>
+                <p><b>Anne / Baba Adı:</b> ${app.motherName} / ${app.fatherName}</p>
+                <p><b>Atestat Ortalaması:</b> ${app.gpa}</p>
+                <p><b>Engellilik Durumu:</b> ${app.disability} ${app.disabilityNote ? `(${app.disabilityNote})` : ''}</p>
+                <p><b>Tercih Edilen Bölümler:</b><br><small>${deptListHtml}</small></p>
+                <p><b>Mevcut Durum:</b> ${statusBadge}</p>
+                ${app.adminNote ? `<p style="color:#721c24;"><b>Yönetici Notu:</b> ${app.adminNote}</p>` : ''}
+                ${actionBtn}
+            </div>
+        `;
+    }
+
+    function loadFormForEdit(code) {
+        const app = applications.find(a => a.code === code);
+        if (!app) return;
+
+        document.getElementById('edit-app-id').value = app.code;
+        document.getElementById('fullname').value = app.fullname;
+        document.getElementById('passport-number').value = app.passportNum;
+        document.getElementById('mother-name').value = app.motherName;
+        document.getElementById('father-name').value = app.fatherName;
+        document.getElementById('home-address').value = app.homeAddress;
+        document.getElementById('phone').value = app.phone;
+        document.getElementById('email').value = app.email;
+        document.getElementById('gpa').value = app.gpa;
+        
+        const checkboxes = document.querySelectorAll('input[name="selected-cities"]');
+        checkboxes.forEach(cb => {
+            cb.checked = app.cities && app.cities.includes(cb.value);
+        });
+        handleCitySelectionChange();
+
+        document.getElementById('disability-status').value = app.disability;
+        toggleDisabilityNote(app.disability);
+        if (app.disability === 'Evet') {
+            document.getElementById('disability-note').value = app.disabilityNote;
+        }
+
+        selectedDepartments = [...app.departments];
+        renderPreferences();
+
+        document.getElementById('file-atestat').required = false;
+        document.getElementById('file-transcript').required = false;
+        document.getElementById('file-gpa-doc').required = false;
+        document.getElementById('file-passport').required = false;
+        document.getElementById('file-photo').required = false;
+
+        document.getElementById('form-title').innerText = `✏️ Başvuru Düzenle (${app.code})`;
+        document.getElementById('submit-btn').innerText = 'Düzeltilmiş Başvuruyu Tekrar Gönder';
+
+        document.getElementById('form-card').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
