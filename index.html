@@ -469,8 +469,7 @@
 <div class="modal" id="login-modal">
     <div class="modal-content">
         <h3 style="margin-top:0;">🔐 Yönetici Girişi</h3>
-        <p style="font-size:12px; color:#666; margin-bottom:15px;">Varsayılan Şifre: <b>admin123</b></p>
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 15px;">
             <label for="admin-pass-input">Şifre:</label>
             <input type="password" id="admin-pass-input" placeholder="Şifrenizi giriniz..." onkeydown="checkEnterKey(event)">
         </div>
@@ -765,7 +764,7 @@
 
     function executeLogin() {
         const pass = document.getElementById('admin-pass-input').value.trim();
-        if (pass === 'admin123') {
+        if (pass === 'batyrserdar04!') {
             isAdminLoggedIn = true;
             closeAdminModal();
             document.getElementById('student-view').style.display = 'none';
@@ -774,7 +773,7 @@
             document.getElementById('admin-toggle-btn').className = 'btn btn-logout';
             renderAdminTable();
         } else {
-            alert('❌ Hatalı Şifre! Varsayılan Şifre: admin123');
+            alert('❌ Hatalı Şifre!');
         }
     }
 
@@ -827,7 +826,6 @@
         });
     }
 
-    // DÜZELTİLEN EXCEL'E AKTARMA FONKSİYONU
     function exportToExcel() {
         if (applications.length === 0) {
             alert('Dışa aktarılacak başvuru bulunmamaktadır!');
